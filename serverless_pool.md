@@ -105,6 +105,7 @@ GO
 ```
 
 ### Create external destination. CETAS Transformation
+[CETAS with Synapse SQL](https://learn.microsoft.com/en-us/azure/synapse-analytics/sql/develop-tables-cetas)
 ```sql
 -- Database for sales data
 CREATE DATABASE Sales
