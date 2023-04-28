@@ -1,5 +1,4 @@
 ### Leer CSV sin headers
-
 ```sql
 SELECT
     TOP 100 *
@@ -23,7 +22,6 @@ FROM
 ```
 
 ### Filtrar path
-
 ```sql
 SELECT 
   YEAR(OrderDate) AS OrderYear,       
@@ -39,7 +37,6 @@ ORDER BY OrderYear
 ```
 
 ### Leer datos JSON
-
 ```sql
 SELECT JSON_VALUE(Doc, '$.SalesOrderNumber') AS OrderNumber,
        JSON_VALUE(Doc, '$.CustomerName') AS Customer,
@@ -53,3 +50,27 @@ FROM
         ROWTERMINATOR = '0x0b'
     ) WITH (Doc NVARCHAR(MAX)) as rows
 ```
+
+### Crear BD con external data source
+```sql
+CREATE DATABASE Sales  
+    COLLATE Latin1_General_100_BIN2_UTF8;
+GO;
+
+Use Sales;
+GO;
+
+CREATE EXTERNAL DATA SOURCE sales_data WITH (    
+    LOCATION = 'https://datalakegiqz07b.dfs.core.windows.net/files/sales/');
+GO;
+
+SELECT *
+FROM      
+    OPENROWSET(        
+        BULK 'parquet/year=*/*.snappy.parquet',        
+        DATA_SOURCE = 'sales_data',        
+        FORMAT='PARQUET'    
+    ) AS orders
+WHERE orders.filepath(1) = '2019'
+```
+
