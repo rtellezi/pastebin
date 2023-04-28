@@ -200,4 +200,7 @@ BEGIN
         ) AS orders
     GROUP BY YEAR(OrderDate)
 END
+
+--EXEC sp_GetYearlySales;
+
 ```
